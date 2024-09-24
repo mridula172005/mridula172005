@@ -1,0 +1,11 @@
+import React from 'react';
+import TransformationToggle from './TransformationToggle'; 
+function App() {
+  return (
+    <div className="App">
+      <TransformationToggle />
+    </div>
+  );
+}
+
+export default App;
