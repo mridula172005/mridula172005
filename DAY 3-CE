@@ -1,0 +1,24 @@
+import React, { useState } from 'react';
+function ToggleMessage() {
+
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
+  const toggleMessage = () => {
+    setIsMessageVisible(!isMessageVisible);
+  };
+
+  return (
+    <div>
+      {/* Button that toggles the message */}
+      <button onClick={toggleMessage}>
+        {isMessageVisible ? 'Hide Component' : 'Show Component'}
+      </button>
+
+      {/* Conditionally render the message based on the state */}
+      {isMessageVisible && (
+        <p>Hi! How are You!!!</p>
+      )}
+    </div>
+  );
+}
+
+export default ToggleMessage;
