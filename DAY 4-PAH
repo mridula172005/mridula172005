@@ -1,0 +1,84 @@
+import React, { useState } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+
+const LoginDialog = () => {
+  const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleLogin = () => {
+    if (username && password) {
+      console.log('Logged in successfully!');
+      setOpen(false); 
+    } else {
+      console.log('Username and Password required.');
+    }
+  };
+
+  return (
+    <>
+      {/* Login Button */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleOpen}
+        data-testid="login"
+      >
+        Login
+      </Button>
+
+      {/* Dialog for login */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Login</DialogTitle>
+
+        <DialogContent>
+          {/* Username TextField */}
+          <TextField
+            label="Username"
+            data-testid="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            fullWidth
+            margin="dense"
+          />
+
+          {/* Password TextField */}
+          <TextField
+            label="Password"
+            type="password"
+            data-testid="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            margin="dense"
+          />
+        </DialogContent>
+
+        <DialogActions>
+          {/* Cancel Button */}
+          <Button onClick={handleClose} data-testid="cancel">
+            Cancel
+          </Button>
+
+          {/* Login Button */}
+          <Button
+            onClick={handleLogin}
+            color="primary"
+            variant="contained"
+            data-testid="dia-login"
+          >
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default LoginDialog;
