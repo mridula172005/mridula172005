@@ -1,0 +1,30 @@
+import React from 'react';
+
+function handleReferenceDataTypes() {
+  let obj1 = { name: 'Thomas', age: 30 };
+  let obj2 = obj1;
+
+  console.log('Before modifying obj2:');
+  console.log('obj1:', obj1);
+  console.log('obj2:', obj2);
+  obj2.age = 35;
+
+  console.log('After modifying obj2:');
+  console.log('obj1:', obj1); 
+  console.log('obj2:', obj2);
+}
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Let we see the output of JAVASCRIPT</h1>
+
+      <button onClick={() => window.alertMsg()}>Click Me</button>
+
+      <h2>Reference Data Types use the same memory</h2>
+      <button onClick={handleReferenceDataTypes}>Reference Data Types</button>
+    </div>
+  );
+}
+
+export default App;
