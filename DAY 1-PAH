@@ -1,0 +1,19 @@
+import React from 'react';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Let we see the output of JAVASCRIPT</h1>
+
+      <button onClick={() => window.alertMsg()}>Click Me</button>
+
+      <h2>Reference Data Types use the same memory</h2>
+      <button onClick={handleReferenceDataTypes}>Reference Data Types</button>
+
+      <h2>Primitive Data Types copy the values</h2>
+      <button onClick={() => window.primitiveDataTypes()}>Primitive Data Types</button>
+    </div>
+  );
+}
+
+export default App;
