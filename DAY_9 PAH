@@ -1,0 +1,111 @@
+index.js
+
+javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+3. App.js
+Set up the routing logic and include the navigation header:
+
+javascript
+Copy code
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './components/Home';
+import About from './components/About';
+import Contact from './components/Contact';
+
+function App() {
+  return (
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+4. Header.js
+Create a navigation header using Link for navigation:
+
+javascript
+Copy code
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Header = () => {
+  return (
+    <header>
+      <h1>Website Navigation</h1>
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+5. Home.js
+Create the Home page component:
+
+javascript
+Copy code
+import React from 'react';
+
+const Home = () => {
+  return (
+    <div>
+      <h2>Welcome to the Home Page</h2>
+      <p>This is the landing page of the website.</p>
+    </div>
+  );
+};
+
+export default Home;
+6. About.js
+Create the About page component:
+
+javascript
+import React from 'react';
+
+const About = () => {
+  return (
+    <div>
+      <h2>About Us</h2>
+      <p>This is the About page. Learn more about us here!</p>
+    </div>
+  );
+};
+
+export default About;
+7. Contact.js
+
+import React from 'react';
+
+const Contact = () => {
+  return (
+    <div>
+      <h2>Contact Us</h2>
+      <p>Reach out to us via this page!</p>
+    </div>
+  );
+};
+
+export default Contact;
