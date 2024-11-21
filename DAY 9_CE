@@ -1,0 +1,130 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+2. App.js
+Define the routes and render the NavBar:
+
+javascript
+Copy code
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import Home from './components/Home';
+import Singers from './components/Singers';
+import Albums from './components/Albums';
+
+function App() {
+  return (
+    <div>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/singers" element={<Singers />} />
+        <Route path="/albums" element={<Albums />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+3. NavBar.js
+Create navigation links using Link:
+
+javascript
+Copy code
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const NavBar = () => {
+  return (
+    <nav>
+      <h1>Music World</h1>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/singers">Singers</Link></li>
+        <li><Link to="/albums">Albums</Link></li>
+      </ul>
+    </nav>
+  );
+};
+
+export default NavBar;
+4. Home.js
+Design the landing page:
+
+javascript
+Copy code
+import React from 'react';
+
+const Home = () => {
+  return (
+    <div>
+      <h2>Welcome to Music World</h2>
+      <p>Your ultimate hub for music information!</p>
+    </div>
+  );
+};
+
+export default Home;
+5. Singers.js
+Display a list of singers:
+
+javascript
+Copy code
+import React from 'react';
+
+const Singers = () => {
+  const singers = [
+    { name: 'Taylor Swift', year: '2006' },
+    { name: 'Ed Sheeran', year: '2011' },
+    { name: 'Adele', year: '2008' },
+  ];
+
+  return (
+    <div>
+      <h2>Singers</h2>
+      <ul>
+        {singers.map((singer, index) => (
+          <li key={index}>{`${singer.name} - Debut Year: ${singer.year}`}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Singers;
+6. Albums.js
+Display a list of albums:
+
+javascript
+Copy code
+import React from 'react';
+
+const Albums = () => {
+  const albums = [
+    { name: '1989', singer: 'Taylor Swift' },
+    { name: 'Divide', singer: 'Ed Sheeran' },
+    { name: '21', singer: 'Adele' },
+  ];
+
+  return (
+    <div>
+      <h2>Albums</h2>
+      <ul>
+        {albums.map((album, index) => (
+          <li key={index}>{`${album.name} - By: ${album.singer}`}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Albums;
