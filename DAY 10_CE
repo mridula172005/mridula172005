@@ -1,0 +1,247 @@
+App.js
+
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./components/Home";
+import Destination from "./components/Destination";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import RegistrationForm from "./components/RegistrationForm";
+import SubmittedForm from "./components/SubmittedForm";
+import "./styles.css";
+
+const App = () => {
+  return (
+    <Router>
+      <div className="navbar">
+        <a href="/">Home</a>
+        <a href="/destination">Destination</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/registration">Registration</a>
+      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/destination" element={<Destination />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/registration" element={<RegistrationForm />} />
+        <Route path="/submittedform" element={<SubmittedForm />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+
+
+---
+
+Components
+
+Each component contains simple content for now.
+
+Home.js
+
+import React from "react";
+
+const Home = () => {
+  return <h1 data-testid="/">Welcome to the Travel App Home Page!</h1>;
+};
+
+export default Home;
+
+Destination.js
+
+import React from "react";
+
+const Destination = () => {
+  return <h1 data-testid="destination">Explore Our Travel Destinations</h1>;
+};
+
+export default Destination;
+
+About.js
+
+import React from "react";
+
+const About = () => {
+  return <h1 data-testid="about">About Us</h1>;
+};
+
+export default About;
+
+Contact.js
+
+import React from "react";
+
+const Contact = () => {
+  return <h1 data-testid="contact">Contact Us</h1>;
+};
+
+export default Contact;
+
+
+---
+
+Step 3: Registration Form with Validations
+
+RegistrationForm.js
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const RegistrationForm = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    passport: "",
+    travelDate: "",
+    returnDate: "",
+    destination: "",
+    reason: "",
+  });
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name) newErrors.name = "Name is required.";
+    if (!formData.email.includes("@")) newErrors.email = "Valid email is required.";
+    if (!formData.phone.match(/^\d{10}$/)) newErrors.phone = "Phone must be 10 digits.";
+    if (!formData.passport) newErrors.passport = "Passport is required.";
+    if (!formData.travelDate) newErrors.travelDate = "Travel date is required.";
+    if (!formData.returnDate) newErrors.returnDate = "Return date is required.";
+    if (!formData.destination) newErrors.destination = "Destination is required.";
+    if (!formData.reason) newErrors.reason = "Reason is required.";
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
+      navigate("/submittedform", { state: { formData } });
+    } else {
+      setErrors(validationErrors);
+    }
+  };
+
+  return (
+    <div>
+      <h1 data-testid="registration-form">Registration Form</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+          {errors.name && <p>{errors.name}</p>}
+        </label>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+          {errors.email && <p>{errors.email}</p>}
+        </label>
+        <label>
+          Phone:
+          <input
+            type="text"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          />
+          {errors.phone && <p>{errors.phone}</p>}
+        </label>
+        <label>
+          Passport:
+          <input
+            type="text"
+            value={formData.passport}
+            onChange={(e) => setFormData({ ...formData, passport: e.target.value })}
+          />
+          {errors.passport && <p>{errors.passport}</p>}
+        </label>
+        <label>
+          Travel Date:
+          <input
+            type="date"
+            value={formData.travelDate}
+            onChange={(e) => setFormData({ ...formData, travelDate: e.target.value })}
+          />
+          {errors.travelDate && <p>{errors.travelDate}</p>}
+        </label>
+        <label>
+          Return Date:
+          <input
+            type="date"
+            value={formData.returnDate}
+            onChange={(e) => setFormData({ ...formData, returnDate: e.target.value })}
+          />
+          {errors.returnDate && <p>{errors.returnDate}</p>}
+        </label>
+        <label>
+          Destination:
+          <input
+            type="text"
+            value={formData.destination}
+            onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+          />
+          {errors.destination && <p>{errors.destination}</p>}
+        </label>
+        <label>
+          Reason for Travel:
+          <textarea
+            value={formData.reason}
+            onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+          ></textarea>
+          {errors.reason && <p>{errors.reason}</p>}
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default RegistrationForm;
+
+
+---
+
+Step 4: Display Submitted Form
+
+SubmittedForm.js
+
+import React from "react";
+import { useLocation } from "react-router-dom";
+
+const SubmittedForm = () => {
+  const { state } = useLocation();
+  const { formData } = state || {};
+
+  return (
+    <div data-testid="submitted-form">
+      <h1>Submitted Form Data</h1>
+      {formData ? (
+        <ul>
+          {Object.entries(formData).map(([key, value]) => (
+            <li key={key}>
+              <strong>{key}:</strong> {value}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No data submitted!</p>
+      )}
+    </div>
+  );
+};
+
+export default SubmittedForm;
