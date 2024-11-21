@@ -1,0 +1,54 @@
+import React, { Component } from 'react';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      msg: 'lamNEO',
+    };
+    console.log('Constructor: Component is being constructed!');
+  }
+  componentWillMount() {
+    console.log('Component Will MOUNT!');
+  }
+
+  componentDidMount() {
+    console.log('Component Did MOUNT!');
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log('Component Will Receive Props!', newProps);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('Should Component UPDATE!', nextState);
+    return true; // Allows the component to re-render
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('Component Will UPDATE!', nextProps, nextState);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('Component Did UPDATE!', prevProps, prevState);
+  }
+
+  componentWillUnmount() {
+    console.log('Component Will UNMOUNT!');
+  }
+  handleChangeMessage = () => {
+    this.setState({ msg: 'Welcome to React' });
+  };
+
+  render() {
+    console.log('Render: Component is rendering!');
+    return (
+      <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <h1>{this.state.msg}</h1>
+        <button onClick={this.handleChangeMessage}>Change Message</button>
+      </div>
+    );
+  }
+}
+
+export default App;
