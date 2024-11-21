@@ -1,0 +1,52 @@
+import React, { createContext, useState, useEffect } from 'react';
+
+export const ProductContext = createContext();
+
+export const ProductProvider = ({ children }) => {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      // Simulating an API call
+      const categoriesFromApi = ['All', 'Electronics', 'Clothing', 'Accessories', 'Home Appliances'];
+      setCategories(categoriesFromApi);
+    };
+
+    const fetchProducts = async () => {
+      // Simulating an API call
+      const productsFromApi = [
+        { id: 1, name: 'Laptop', category: 'Electronics', price: 900 },
+        { id: 2, name: 'T-Shirt', category: 'Clothing', price: 20 },
+        { id: 3, name: 'Microwave', category: 'Home Appliances', price: 150 },
+        { id: 4, name: 'Headphones', category: 'Accessories', price: 50 },
+      ];
+      setProducts(productsFromApi);
+    };
+
+    fetchCategories();
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    return matchesCategory && matchesPrice;
+  });
+
+  return (
+    <ProductContext.Provider
+      value={{
+        categories,
+        selectedCategory,
+        setSelectedCategory,
+        priceRange,
+        setPriceRange,
+        filteredProducts,
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
+};
