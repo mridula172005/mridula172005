@@ -1,0 +1,46 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const BooksList = () => {
+  const [books, setBooks] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get("https://api.example.com/books"); // Replace with the actual API URL
+        // Transform the response data
+        const transformedBooks = response.data.data.map((item) => ({
+          id: item.id,
+          title: item.title,
+          author: item.author,
+        }));
+        setBooks(transformedBooks);
+      } catch (err) {
+        setError("Failed to fetch books. Please try again later.");
+        console.error(err);
+      }
+    };
+    fetchBooks();
+  }, []);
+
+  return (
+    <div>
+      <h1>Books List</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {books.length > 0 ? (
+        <ul>
+          {books.map((book) => (
+            <li key={book.id}>
+              <strong>{book.title}</strong> by {book.author}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Loading books...</p>
+      )}
+    </div>
+  );
+};
+
+export default BooksList;
