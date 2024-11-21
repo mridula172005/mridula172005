@@ -1,0 +1,134 @@
+Form.js:
+import React, { useState } from 'react';
+
+const Form = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.name && formData.email && formData.message) {
+      onSubmit(formData);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Enter your name"
+        />
+      </label>
+      <p data-testid="display-name">{formData.name}</p>
+      <label>
+        Email:
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+        />
+      </label>
+      <p data-testid="display-email">{formData.email}</p>
+      <label>
+        Message:
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          placeholder="Enter your message"
+        ></textarea>
+      </label>
+      <p data-testid="display-message">{formData.message}</p>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default Form;
+Test File
+Create a test file Form.test.js in the same directory as your form component.
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import Form from './Form';
+test('displays the name when entered', () => {
+  render(<Form onSubmit={jest.fn()} />);
+
+  const nameInput = screen.getByPlaceholderText('Enter your name');
+  fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+
+  expect(screen.getByTestId('display-name')).toHaveTextContent('John Doe');
+});
+Display Email
+javascript
+Copy code
+test('displays the email when entered', () => {
+  render(<Form onSubmit={jest.fn()} />);
+
+  const emailInput = screen.getByPlaceholderText('Enter your email');
+  fireEvent.change(emailInput, { target: { value: 'john@example.com' } });
+
+  expect(screen.getByTestId('display-email')).toHaveTextContent('john@example.com');
+});
+test('displays the message when entered', () => {
+  render(<Form onSubmit={jest.fn()} />);
+
+  const messageInput = screen.getByPlaceholderText('Enter your message');
+  fireEvent.change(messageInput, { target: { value: 'Hello there!' } });
+
+  expect(screen.getByTestId('display-message')).toHaveTextContent('Hello there!');
+});
+test('calls onSubmit with correct user information when form is submitted', () => {
+  const mockSubmit = jest.fn();
+  render(<Form onSubmit={mockSubmit} />);
+
+  fireEvent.change(screen.getByPlaceholderText('Enter your name'), { target: { value: 'John Doe' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: 'john@example.com' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your message'), { target: { value: 'Hello!' } });
+
+  fireEvent.click(screen.getByText('Submit'));
+
+  expect(mockSubmit).toHaveBeenCalledWith({
+    name: 'John Doe',
+    email: 'john@example.com',
+    message: 'Hello!',
+  });
+});
+Form Submission with Missing Fields
+javascript
+Copy code
+test('does not call onSubmit when required fields are empty', () => {
+  const mockSubmit = jest.fn();
+  render(<Form onSubmit={mockSubmit} />);
+
+  fireEvent.change(screen.getByPlaceholderText('Enter your name'), { target: { value: '' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: '' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your message'), { target: { value: '' } });
+
+  fireEvent.click(screen.getByText('Submit'));
+
+  expect(mockSubmit).not.toHaveBeenCalled();
+});
+test('does not call onSubmit when email is invalid', () => {
+  const mockSubmit = jest.fn();
+  render(<Form onSubmit={mockSubmit} />);
+
+  fireEvent.change(screen.getByPlaceholderText('Enter your name'), { target: { value: 'John Doe' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: 'invalid-email' } });
+  fireEvent.change(screen.getByPlaceholderText('Enter your message'), { target: { value: 'Hello!' } });
+
+  fireEvent.click(screen.getByText('Submit'));
+
+  expect(mockSubmit).not.toHaveBeenCalled();
+});
