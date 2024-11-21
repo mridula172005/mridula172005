@@ -1,0 +1,35 @@
+import React from 'react';
+import withProductList from './withProductList';
+
+const productList = [
+  { name: 'Laptop', price: '$1200', image: 'https://via.placeholder.com/150' },
+  { name: 'Smartphone', price: '$800', image: 'https://via.placeholder.com/150' },
+  { name: 'Headphones', price: '$150', image: 'https://via.placeholder.com/150' },
+];
+
+const ProductDisplay = ({ products }) => {
+  return (
+    <div>
+      {products.map((product, index) => (
+        <div key={index} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
+          <h3>{product.name}</h3>
+          <p>Price: {product.price}</p>
+          <img src={product.image} alt={product.name} style={{ width: '100px', height: '100px' }} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ProductList = withProductList(ProductDisplay);
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Product List</h1>
+      <ProductList products={productList} />
+    </div>
+  );
+}
+
+export default App;
