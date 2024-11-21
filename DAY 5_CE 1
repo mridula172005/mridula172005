@@ -1,0 +1,27 @@
+"scripts": {
+  "start": "PORT=8081 react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
+}
+jsx
+const items = ["pasta", "wheat", "rice"];
+function App() {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  );
+}
+const items = ["pasta", "wheat", "rice"];
+function App() {
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
+  );
+}
